@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0b1220">
+<title>金崙・南田｜銀河行程</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --ink:#0b1220;
+  --ink2:#121b2e;
+  --card:#152238;
+  --star:#f3e9d2;
+  --amber:#e8965a;
+  --amber-dim:#c97a45;
+  --teal:#5db8ac;
+  --line:rgba(243,233,210,0.10);
+  --muted:#8a93aa;
+  --danger:#e8735a;
+  --safe-t: env(safe-area-inset-top);
+  --safe-b: env(safe-area-inset-bottom);
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html,body{margin:0; padding:0; background:var(--ink); color:var(--star); font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased;}
+body{
+  padding-top:calc(var(--safe-t) + 0px);
+  padding-bottom:calc(var(--safe-b) + 40px);
+  background:
+    radial-gradient(ellipse 600px 300px at 50% 0%, rgba(93,184,172,0.10), transparent 60%),
+    radial-gradient(ellipse 500px 260px at 80% 15%, rgba(232,150,90,0.08), transparent 60%),
+    var(--ink);
+}
+.wrap{max-width:640px; margin:0 auto; padding:0 18px;}
+
+/* ===== Header ===== */
+header.hero{
+  padding:38px 18px 26px;
+  text-align:center;
+  position:relative;
+}
+.eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  letter-spacing:0.18em;
+  color:var(--teal);
+  text-transform:uppercase;
+  margin-bottom:14px;
+}
+.hero h1{
+  font-family:'Fraunces',serif;
+  font-weight:600;
+  font-size:34px;
+  line-height:1.15;
+  margin:0 0 10px;
+  letter-spacing:-0.01em;
+}
+.hero h1 span{color:var(--amber); font-style:italic; font-weight:500;}
+.hero .sub{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.6;
+  max-width:420px;
+  margin:0 auto;
+}
+
+/* ===== Condition strip ===== */
+.conditions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+  border-radius:14px;
+  overflow:hidden;
+  margin:22px 0 8px;
+}
+.cond-cell{
+  background:var(--ink2);
+  padding:14px 10px;
+  text-align:center;
+}
+.cond-cell .lbl{font-size:10px; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; font-family:'JetBrains Mono',monospace;}
+.cond-cell .val{font-size:15px; font-weight:600; margin-top:5px; color:var(--star);}
+.cond-note{
+  text-align:center;
+  font-size:11.5px;
+  color:var(--muted);
+  padding:10px 20px 4px;
+  line-height:1.6;
+}
+
+/* ===== Sleep budget banner ===== */
+.banner{
+  margin:20px 0;
+  padding:14px 16px;
+  border-radius:12px;
+  background:linear-gradient(90deg, rgba(232,115,90,0.14), rgba(232,115,90,0.04));
+  border:1px solid rgba(232,115,90,0.28);
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+}
+.banner .icon{font-size:18px; line-height:1;}
+.banner .txt{font-size:13px; line-height:1.6; color:#f0d9ce;}
+.banner b{color:var(--danger);}
+
+/* ===== Timeline ===== */
+.timeline{position:relative; margin-top:30px; padding-left:26px;}
+.timeline::before{
+  content:'';
+  position:absolute;
+  left:6px; top:6px; bottom:6px;
+  width:2px;
+  border-radius:2px;
+  background:linear-gradient(
+    to bottom,
+    #8a93aa 0%,
+    var(--amber) 14%,
+    var(--amber) 34%,
+    #7c6a8f 48%,
+    #3a3f6b 62%,
+    #14182f 80%,
+    #14182f 100%
+  );
+}
+.stop{position:relative; margin-bottom:30px;}
+.stop:last-child{margin-bottom:0;}
+.stop::before{
+  content:'';
+  position:absolute;
+  left:-26px; top:4px;
+  width:14px; height:14px;
+  border-radius:50%;
+  background:var(--ink);
+  border:2px solid var(--amber-dim);
+}
+.stop.night::before{border-color:var(--teal);}
+.stop.core::before{border-color:var(--amber); box-shadow:0 0 0 4px rgba(232,150,90,0.15);}
+
+.stop-head{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-bottom:8px;}
+.time{
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  color:var(--amber);
+  font-weight:600;
+  letter-spacing:0.02em;
+}
+.stop.night .time{color:var(--teal);}
+.phase-tag{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  padding:3px 8px;
+  border-radius:20px;
+  background:var(--line);
+  color:var(--muted);
+  letter-spacing:0.04em;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:16px 16px 14px;
+}
+.card h2{
+  font-family:'Fraunces',serif;
+  font-weight:600;
+  font-size:19px;
+  margin:0 0 6px;
+  color:var(--star);
+}
+.card p.desc{
+  font-size:13.5px;
+  line-height:1.65;
+  color:#c7cfe0;
+  margin:0 0 12px;
+}
+.card p.desc:last-of-type{margin-bottom:0;}
+
+.maplink{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:11.5px;
+  color:var(--ink);
+  background:var(--star);
+  padding:7px 12px;
+  border-radius:8px;
+  text-decoration:none;
+  font-weight:600;
+  margin:2px 6px 10px 0;
+}
+.maplink:active{opacity:0.75;}
+.maplink svg{width:12px; height:12px;}
+
+.comp{
+  font-size:12.5px;
+  color:var(--teal);
+  background:rgba(93,184,172,0.08);
+  border-left:2px solid var(--teal);
+  padding:8px 10px;
+  border-radius:4px;
+  margin-top:10px;
+  line-height:1.6;
+}
+.comp b{color:#8fd4c9;}
+
+.params{
+  margin-top:12px;
+  border-top:1px dashed var(--line);
+  padding-top:12px;
+}
+.params .ptitle{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10.5px;
+  color:var(--amber);
+  letter-spacing:0.08em;
+  margin-bottom:8px;
+  text-transform:uppercase;
+}
+.pgrid{display:grid; grid-template-columns:repeat(4,1fr); gap:8px;}
+.pgrid div{
+  background:var(--ink2);
+  border-radius:8px;
+  padding:8px 4px;
+  text-align:center;
+}
+.pgrid .k{font-size:9px; color:var(--muted); font-family:'JetBrains Mono',monospace;}
+.pgrid .v{font-size:12.5px; color:var(--star); font-weight:600; margin-top:3px; font-family:'JetBrains Mono',monospace;}
+
+.warn{
+  margin-top:10px;
+  font-size:12px;
+  line-height:1.6;
+  color:#f0c9a8;
+  background:rgba(232,150,90,0.08);
+  border-left:2px solid var(--amber);
+  padding:8px 10px;
+  border-radius:4px;
+}
+.warn.danger{color:#f0d0c8; background:rgba(232,115,90,0.10); border-left-color:var(--danger);}
+
+/* ===== Footer checklist ===== */
+.checklist{
+  margin-top:36px;
+  background:var(--ink2);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:18px 18px 6px;
+}
+.checklist h3{
+  font-family:'Fraunces',serif;
+  font-size:17px;
+  margin:0 0 12px;
+  color:var(--star);
+}
+.checklist label{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  font-size:13px;
+  line-height:1.5;
+  color:#c7cfe0;
+  padding:9px 0;
+  border-bottom:1px solid var(--line);
+  cursor:pointer;
+}
+.checklist label:last-child{border-bottom:none;}
+.checklist input{
+  margin-top:2px;
+  accent-color:var(--amber);
+  width:15px; height:15px;
+  flex-shrink:0;
+}
+.checklist input:checked + span{color:var(--muted); text-decoration:line-through;}
+
+footer{
+  text-align:center;
+  margin-top:30px;
+  font-size:11px;
+  color:var(--muted);
+  font-family:'JetBrains Mono',monospace;
+  letter-spacing:0.04em;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">2026 / 07 / 18（六）· 金崙 → 南田</div>
+    <h1>南田海廢之手<br><span>銀河與車軌</span> 行程</h1>
+    <p class="sub">從金崙山水妍溫泉會館出發，南下南田拍銀河，回程順道金崙觀景台補車軌，隔天 07:00 火車。</p>
+  </header>
+
+  <div class="conditions">
+    <div class="cond-cell"><div class="lbl">日落</div><div class="val">約 18:45</div></div>
+    <div class="cond-cell"><div class="lbl">天文全黑</div><div class="val">約 20:15</div></div>
+    <div class="cond-cell"><div class="lbl">月相</div><div class="val">眉月 早落</div></div>
+  </div>
+  <p class="cond-note">7/14 新月，7/18 為極淡眉月，日落後數小時內西沉，整晚幾乎不受月光影響 — 出發前一天用 Atmos 再核對一次即可。</p>
+
+  <div class="banner">
+    <div class="icon">⚠️</div>
+    <div class="txt">這趟只有 <b>約 5.5 小時睡眠</b>（01:10 → 06:?? 起床），行李前一晚先打包好，記憶卡容量記得抓夠，別留到早上手忙腳亂。</div>
+  </div>
+
+  <div class="timeline">
+
+    <!-- STOP 1 -->
+    <div class="stop">
+      <div class="stop-head">
+        <span class="time">11:00</span>
+        <span class="phase-tag">抵達</span>
+      </div>
+      <div class="card">
+        <h2>金崙車站 · 吉發租車行</h2>
+        <p class="desc">出站後直接去吉發租車行租機車，走路約3分鐘就到，取車後開始今天行程。</p>
+        <a class="maplink" href="https://maps.google.com/?cid=1517532164891445222" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
+          Google 地圖
+        </a>
+      </div>
+    </div>
+
+    <!-- STOP 2 -->
+    <div class="stop">
+      <div class="stop-head">
+        <span class="time">11:15 – 12:15</span>
+        <span class="phase-tag">午餐</span>
+      </div>
+      <div class="card">
+        <h2>午餐 · 屋樑umaq 或 鼎倫牛肉麵</h2>
+        <p class="desc">租車行附近走路2-4分鐘內都到得了。屋樑umaq（4.8分，原住民料理，11:00–14:30）或鼎倫牛肉麵（在地老字號，牛肉麵＋水餃）擇一。</p>
+        <a class="maplink" href="https://maps.google.com/?cid=17247965773291854596" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
+          屋樑umaq
+        </a>
+        <a class="maplink" href="https://maps.google.com/?cid=9028799021196231127" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
+          鼎倫牛肉麵
+        </a>
+      </div>
+    </div>
+
+    <!-- STOP 3 -->
+    <div class="stop">
+      <div class="stop-head">
+        <span class="time">12:15 – 14:00</span>
+        <span class="phase-tag">noon 正午硬光</span>
+      </div>
+      <div class="card">
+        <h2>山水妍溫泉會館 · Check-in 休息</h2>
+        <p class="desc">正午光線太硬不適合拍照，先去飯店 check-in、放行李、休息，等光線轉柔再出門。</p>
+        <a class="maplink" href="https://maps.google.com/?cid=11500804669431951460" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
+          Google 地圖
+        </a>
+      </div>
+    </div>
+
+    <!-- STOP 4 -->
+    <div class="stop">
+      <div class="stop-head">
+        <span class="time">14:00 – 15:00</span>
+        <span class="phase-tag">pm_oblique 午後斜射</span>
+      </div>
+      <div class="card">
+        <h2>金崙沙灘</h2>
+        <p class="desc">灰礫石海灘，從金崙車站後方穿過涵洞步行約3-5分鐘（騎車過去更快），現場有地景藝術「方圓之間」可入鏡，光線轉柔後海水藍色最漂亮。</p>
+        <a class="maplink" href="https://maps.google.com/?cid=14908323334064014910" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
+          Google 地圖
+        </a>
+        <div class="comp"><b>構圖：</b> 礫石紋理當前景，海平線切三分之一 @16mm ／ 「方圓之間」裝置藝術搭配海景 @20-70mm</div>
+      </div>
+    </div>
+
+    <!-- STOP 5 -->
+    <div class="stop">
+      <div class="stop-head">
+        <span class="time">15:00 – 16:00</span>
+        <span class="phase-tag">pm_oblique</span>
+      </div>
+      <div class="card">
+        <h2>回飯店整理裝備</h2>
+        <p class="desc">回山水妍溫泉會館，檢查腳架、電池、記憶卡，準備出發南田。</p>
+      </div>
+    </div>
+
+    <!-- STOP 6 -->
+    <div class="stop">
+      <div class="stop-head">
+        <span class="time">16:00</span>
+        <span class="phase-tag">出發</span>
+      </div>
+      <div class="card">
+        <h2>出發前往南田</h2>
+        <p class="desc">台9線南下，山路彎多，抓 45–60 分鐘車程。這趟也是唯一一次白天認路的機會，仔細記彎道位置。</p>
+      </div>
+    </div>
+
+    <!-- STOP 3 -->
+    <div class="stop">
+      <div class="stop-head">
+        <span class="time">16:45 – 18:45</span>
+        <span class="phase-tag">pm_oblique → golden_pm</span>
+      </div>
+      <div class="card">
+        <h2>南田海廢之手</h2>
+        <p class="desc">白天場勘最重要：確認銀河核心方向（面朝南方海面），站好機位、量好前景與手的距離，架腳架試構圖。golden_pm 黃昏金光時段拍剪影與夕陽。</p>
+        <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=%E5%8D%97%E7%94%B0%E6%B5%B7%E5%BB%A2%E4%B9%8B%E6%89%8B%20%E5%8D%97%E7%94%B0%E6%B5%B7%E5%B2%B8%E8%A6%AA%E6%B0%B4%E5%85%AC%E5%9C%92" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
+          Google 地圖
+        </a>
+        <div class="comp"><b>構圖：</b> 逆光剪影，讓手的輪廓卡在天空最亮處 @20mm ／ 退遠壓縮手與海平面 @85mm</div>
+        <div class="warn">南田是礫石海岸，退潮時石頭濕滑，腳架選乾燥高處，避免離水線太近。</div>
+      </div>
+    </div>
+
+    <!-- STOP 4 -->
+    <div class="stop night">
+      <div class="stop-head">
+        <span class="time">18:45 – 19:10</span>
+        <span class="phase-tag">blue_dusk</span>
+      </div>
+      <div class="card">
+        <h2>對焦黃金時間</h2>
+        <p class="desc">天還沒全黑，手電筒照亮海廢之手，Live View 10倍手動對焦，鎖定後<b style="color:var(--star)">貼膠帶固定對焦環</b>，之後不要再碰。星空對焦則是無限遠往回一點點，白天先試拍校正好那個刻度。</p>
+        <p class="desc">前景＋星空都要清楚，就拍兩張分開對焦，後製疊圖。</p>
+      </div>
+    </div>
+
+    <!-- STOP 5 -->
+    <div class="stop night">
+      <div class="stop-head">
+        <span class="time">19:10 – 20:15</span>
+        <span class="phase-tag">過渡期</span>
+      </div>
+      <div class="card">
+        <h2>原地等待</h2>
+        <p class="desc">吃東西、確認電量與記憶卡容量，機位不要再移動。</p>
+      </div>
+    </div>
+
+    <!-- STOP 6 -->
+    <div class="stop core">
+      <div class="stop-head">
+        <span class="time">20:15 – 23:00</span>
+        <span class="phase-tag">天文黑暗 · 銀河核心漸高</span>
+      </div>
+      <div class="card">
+        <h2>正式銀河拍攝</h2>
+        <p class="desc">21:00 後銀河核心角度最佳。全黑後不要再用自動對焦，暗部對焦馬達容易迷焦。</p>
+        <p class="desc">你這次是固定腳架、沒有追星器，<b style="color:var(--star)">建議疊圖</b>：星空拍多張疊合降噪，前景另外單獨一張，後製再合成。若時間趕，方案A單張也能用，只是暗部雜訊會比較明顯。</p>
+
+        <div class="params">
+          <div class="ptitle">方案 A · 單張（省事，雜訊較多）</div>
+          <div class="pgrid">
+            <div><div class="k">光圈</div><div class="v">f/2.8</div></div>
+            <div><div class="k">快門</div><div class="v">≈31s</div></div>
+            <div><div class="k">ISO</div><div class="v">3200–6400</div></div>
+            <div><div class="k">白平衡</div><div class="v">3800–4000K</div></div>
+          </div>
+        </div>
+
+        <div class="params">
+          <div class="ptitle">方案 B · 疊圖（推薦，畫質乾淨）— 星空層</div>
+          <div class="pgrid">
+            <div><div class="k">光圈</div><div class="v">f/2.8</div></div>
+            <div><div class="k">快門</div><div class="v">≈31s</div></div>
+            <div><div class="k">ISO</div><div class="v">3200–6400</div></div>
+            <div><div class="k">張數</div><div class="v">8–12張</div></div>
+          </div>
+          <div class="comp">連拍 8–12 張，構圖、對焦、白平衡全程不要動，拍完丟 <b>Sequator</b> 或 <b>Starry Landscape Stacker</b> 疊合降噪，星點更乾淨、暗部不糊。</div>
+        </div>
+
+        <div class="params">
+          <div class="ptitle">方案 B · 疊圖 — 前景層（海廢之手單獨一張）</div>
+          <div class="pgrid">
+            <div><div class="k">光圈</div><div class="v">f/4–5.6</div></div>
+            <div><div class="k">快門</div><div class="v">60–90s</div></div>
+            <div><div class="k">ISO</div><div class="v">800–1600</div></div>
+            <div><div class="k">補光</div><div class="v">手電筒</div></div>
+          </div>
+          <div class="comp">拍攝時用暖色手電筒輕掃前景補光 2–3 秒，光圈縮一點景深更足。回家用遮罩把這張前景跟疊完的星空合成。</div>
+        </div>
+
+        <div class="warn">前景補光用暖色手電筒＋柔光紙，距離2-3米，避免死白。</div>
+      </div>
+    </div>
+
+    <!-- STOP 7 -->
+    <div class="stop night">
+      <div class="stop-head">
+        <span class="time">23:00 – 23:45</span>
+        <span class="phase-tag">收工</span>
+      </div>
+      <div class="card">
+        <h2>南田海廢之手 · 收工</h2>
+        <p class="desc">整理裝備，確認今晚拍攝有備份，準備返程。</p>
+      </div>
+    </div>
+
+    <!-- STOP 8 -->
+    <div class="stop night">
+      <div class="stop-head">
+        <span class="time">23:45</span>
+        <span class="phase-tag">出發返回金崙</span>
+      </div>
+      <div class="card">
+        <h2>返回金崙</h2>
+        <p class="desc">車程約 45–60 分鐘，山路夜騎務必減速，部分路段無護欄無照明。</p>
+      </div>
+    </div>
+
+    <!-- STOP 9 -->
+    <div class="stop night">
+      <div class="stop-head">
+        <span class="time">00:30 – 01:00</span>
+        <span class="phase-tag">天文黑暗</span>
+      </div>
+      <div class="card">
+        <h2>金崙觀景台 · 車軌</h2>
+        <p class="desc">順路，離飯店很近。半夜車流量比傍晚少、車軌較稀疏，但省時間、風險也低。</p>
+        <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=%E9%87%91%E5%B4%99%E8%A7%80%E6%99%AF%E5%8F%B0" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
+          Google 地圖
+        </a>
+        <div class="comp"><b>構圖：</b> 居高臨下拍橋面完整車軌延伸線 @20-70mm</div>
+        <div class="params">
+          <div class="ptitle">現場快查參數 · 車軌（非星空邏輯）</div>
+          <div class="pgrid">
+            <div><div class="k">光圈</div><div class="v">f/8–f/11</div></div>
+            <div><div class="k">快門</div><div class="v">15–30s</div></div>
+            <div><div class="k">ISO</div><div class="v">100–400</div></div>
+            <div><div class="k">工具</div><div class="v">快門線</div></div>
+          </div>
+        </div>
+        <div class="warn danger">注意：這裡跟銀河用的高 ISO 邏輯相反，記得切換參數。</div>
+      </div>
+    </div>
+
+    <!-- STOP 10 -->
+    <div class="stop night">
+      <div class="stop-head">
+        <span class="time">01:00 – 01:10</span>
+        <span class="phase-tag">移動</span>
+      </div>
+      <div class="card">
+        <h2>回山水妍溫泉會館</h2>
+        <p class="desc">收工回飯店，不要再貪心加點行程。</p>
+        <a class="maplink" href="https://maps.google.com/?cid=11500804669431951460" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
+          Google 地圖
+        </a>
+      </div>
+    </div>
+
+    <!-- STOP 11 -->
+    <div class="stop night">
+      <div class="stop-head">
+        <span class="time">01:10</span>
+        <span class="phase-tag">休息</span>
+      </div>
+      <div class="card">
+        <h2>抵達飯店 · 洗漱睡覺</h2>
+        <p class="desc">約 5.5 小時睡眠，行李務必前一晚打包好。</p>
+      </div>
+    </div>
+
+    <!-- STOP 12 -->
+    <div class="stop">
+      <div class="stop-head">
+        <span class="time">07:00</span>
+        <span class="phase-tag">隔天出發</span>
+      </div>
+      <div class="card">
+        <h2>金崙火車站</h2>
+        <p class="desc">早班車，起床後直接出發。照片先留在記憶卡裡，回家再整理備份。</p>
+        <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=%E9%87%91%E5%B4%99%E7%81%AB%E8%BB%8A%E7%AB%99" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
+          Google 地圖
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="checklist">
+    <h3>出發前 Checklist</h3>
+    <label><input type="checkbox"><span>行李前一晚打包完成</span></label>
+    <label><input type="checkbox"><span>電池全部充滿（至少 2 顆備用）</span></label>
+    <label><input type="checkbox"><span>記憶卡格式化＋容量足夠</span></label>
+    <label><input type="checkbox"><span>頭燈 / 手電筒（含暖色濾片或柔光紙）</span></label>
+    <label><input type="checkbox"><span>腳架＋快門線</span></label>
+    <label><input type="checkbox"><span>膠帶（固定對焦環用）</span></label>
+    <label><input type="checkbox"><span>離線地圖先下載（南田山區收訊不穩）</span></label>
+    <label><input type="checkbox"><span>Atmos 出發前一天再核對月相／雲量</span></label>
+    <label><input type="checkbox"><span>記憶卡容量足夠一次拍完（不現場備份，回家再整理）</span></label>
+  </div>
+
+  <footer>金崙 · 南田 · 2026.07.18 — Milky Way &amp; Light Trails</footer>
+
+</div>
+</body>
+</html>
